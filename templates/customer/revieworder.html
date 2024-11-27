@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<!-- Created By CodingLab - www.codinglabweb.com -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Home | Tea Cozy</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/static/images/logo_favicon1.png"
+    />
+    <link rel="stylesheet" href="/static/index/style.css" />
+    <link rel="stylesheet" href="/static/login/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- Bootstrap for corousel -->
+    <link
+      crossorigin="anonymous"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- review-order -->
+    <link rel="stylesheet" href="/static/revieworder/style.css" />
+    <style>
+      .inputAddress {
+        width: 100%; /* Full width */
+        padding: 10px; /* Padding for better usability */
+        font-size: 1rem; /* Font size */
+        color: #ffffff; /* Text color */
+        background-color: rgb(0, 66, 37); /* Background color */
+        resize: none; /* Prevent resizing the textarea */
+        outline: none;
+        border: none;
+        border-radius: 10px;
+      }
+      .inputAddress:focus {
+        outline: none; /* Remove outline */
+      }
+      hr {
+        background-color: white;
+        height: 2px;
+      }
+      .profile:hover {
+        background-color: unset;
+        color: rgb(66, 173, 189);
+      }
+      .logout:hover {
+        background-color: unset;
+        color: rgb(255, 83, 83);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Login Form Start -->
+    <div id="login-popup-container">
+      <div id="login-popup-content">
+        <form class="form-login" method="post">
+          {% csrf_token %}
+          <div class="flex-column">
+            <label>Email </label>
+          </div>
+          <div class="inputForm">
+            <i class="bi bi-at" style="color: white; font-size: 1.4rem"></i>
+            <input
+              type="email"
+              name="email"
+              class="input"
+              placeholder="Enter your Email"
+            />
+          </div>
+
+          <div class="flex-column">
+            <label>Password </label>
+          </div>
+          <div class="inputForm">
+            <i class="bi bi-lock" style="color: white; font-size: 1.4rem"></i>
+            <input
+              type="password"
+              name="password"
+              class="input"
+              placeholder="Enter your Password"
+            />
+          </div>
+
+          <div class="flex-row">
+            <div>
+              <input type="checkbox" />
+              <label style="color: white">Remember me </label>
+            </div>
+            <a
+              href="/password_reset"
+              class="span"
+              style="color: rgb(255, 207, 157)"
+              >Forgot password?</a
+            >
+          </div>
+          <button class="button-submit" name="signin" value="signin">
+            Sign In
+          </button>
+          <p class="p" style="color: white">
+            Don't have an account?
+            <a
+              id="signup-link"
+              style="text-decoration: none; color: rgb(255, 207, 157)"
+              href="#"
+              class="span"
+              >Sign Up</a
+            >
+          </p>
+        </form>
+      </div>
+    </div>
+    <!-- Login Form End -->
+    <!-- Signup Form Start -->
+    <div id="signup-popup-container">
+      <div id="signup-popup-content">
+        <form class="form-login" method="post">
+          {% csrf_token %}
+          <h1 style="text-align: center; color: white">Signup Form</h1>
+          <hr style="background-color: white; height: 2px" />
+          <div
+            class="button-selection"
+            style="display: flex; justify-content: space-between"
+          >
+            <button
+              type="button"
+              id="customer-btn"
+              onclick="showCustomerForm()"
+              style="
+                width: 300px;
+                background-color: #004225;
+                border: 1px solid white;
+                color: white;
+                height: 50px;
+                border-radius: 10px;
+              "
+            >
+              Customer
+            </button>
+            <button
+              type="button"
+              id="company-btn"
+              onclick="showCompanyForm()"
+              style="
+                width: 300px;
+                background-color: #004225;
+                border: 1px solid white;
+                color: white;
+                height: 50px;
+                border-radius: 10px;
+              "
+            >
+              Company Customer
+            </button>
+          </div>
+          <hr style="background-color: white; height: 2px" />
+          <!-- customer form -->
+          <div id="customer-form">
+            <input
+              hidden
+              type="checkbox"
+              id="customer-checkbox"
+              name="is_normal_user"
+              checked
+              onclick="toggleCheckbox(this, 'company-checkbox')"
+            />
+            <div class="row">
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Fullname </label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="text"
+                    name="full_name"
+                    class="input"
+                    placeholder="Enter your Fullname"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Email</label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-at"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="email"
+                    name="email"
+                    class="input"
+                    placeholder="Enter your Email"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Password </label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-lock"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="password"
+                    name="password1"
+                    class="input"
+                    placeholder="Enter your Password"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Confirm Password </label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-lock"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="password"
+                    name="password2"
+                    class="input"
+                    placeholder="Enter your Confirm Password"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-12" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Mobile Number</label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="number"
+                    pattern="\d{10,}"
+                    name="mobile"
+                    class="input"
+                    placeholder="Enter your Mobile Number"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- company customer form -->
+          <div id="company-form" style="display: none">
+            <input
+              hidden
+              type="checkbox"
+              id="company-checkbox"
+              name="is_comapny_user"
+              onclick="toggleCheckbox(this, 'customer-checkbox')"
+            />
+            <div class="row">
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Comapny Name </label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="text"
+                    name="comapny_name"
+                    class="input"
+                    placeholder="Enter your Company Name"
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Comapny Id </label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="number"
+                    name="comapny_id"
+                    class="input"
+                    placeholder="Enter your Comapny Id"
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Fullname </label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="text"
+                    name="full_name"
+                    class="input"
+                    placeholder="Enter your Fullname"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Email</label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-at"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="email"
+                    name="email"
+                    class="input"
+                    placeholder="Enter your Email"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Password </label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-lock"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="password"
+                    name="password1"
+                    class="input"
+                    placeholder="Enter your Password"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Confirm Password </label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-lock"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="password"
+                    name="password2"
+                    class="input"
+                    placeholder="Enter your Confirm Password"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-12" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Mobile Number</label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="number"
+                    pattern="\d{10,}"
+                    name="mobile"
+                    class="input"
+                    placeholder="Enter your Mobile Number"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- company cusyomer form-end -->
+          <input type="checkbox" name="is_customer" id="" checked hidden />
+          <button class="button-submit" name="signup" value="signup">
+            Sign Up
+          </button>
+        </form>
+      </div>
+    </div>
+    <!-- Signup Form End -->
+    <!-- Header Strat -->
+    <header>
+      <nav style="background-color: rgb(255, 176, 0)">
+        <div class="navbar">
+          <div class="logo">
+            <img src="/static/images/tea_cozy_logo.png" alt="" />
+          </div>
+          <ul class="menu mt-4">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/menu">Order Online</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/contact">Contact Us</a></li>
+          </ul>
+          <div class="search-box">
+            <button class="btn-search"><i class="fas fa-search"></i></button>
+            <input
+              type="text"
+              class="input-search"
+              placeholder="Type to Search..."
+            />
+          </div>
+          <div
+            class="account"
+            style="display: flex; justify-content: center; align-items: center"
+          >
+            {% if username is not none %}
+            <div class="dropdown me-4">
+              <button
+                class="dropdown-toggle"
+                type="button"
+                style="
+                  background-color: #004225;
+                  padding: 10px 15px;
+                  color: white;
+                  border: 0;
+                  border-radius: 10px;
+                "
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                {{username}}
+              </button>
+              <ul
+                class="dropdown-menu"
+                style="
+                  background-color: rgb(225, 225, 225);
+
+                  border: 0;
+                  width: 100%;
+                  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+                    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+                    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+                "
+              >
+                <li class="">
+                  <a class="dropdown-item profile" href="/updateprofile"
+                    >Profile</a
+                  >
+                </li>
+                <hr style="margin: 5px 0" />
+                <li class="">
+                  <a class="dropdown-item profile" href="/vieworder">Order's</a>
+                </li>
+                <hr style="margin: 5px 0" />
+                <li class="">
+                  <a class="dropdown-item logout" href="/userlogout">Logout</a>
+                </li>
+              </ul>
+            </div>
+            {% else %}
+            <i class="bi bi-person-circle me-4" id="login-btn"></i>
+            {% endif %}
+            <a href="/cart"><i class="bi bi-cart3" id="login-btn"></i></a>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <!-- Header end -->
+
+    <!-- Main Start -->
+    <main style="margin: 100px 0 0 0">
+      <form method="post">
+        {% csrf_token %}
+        <div class="row">
+          <!-- customer-info -->
+          <div class="col-lg-8" style="margin: 20px auto">
+            <div class="card border shadow-0">
+              <div class="m-4">
+                <h4 class="card-title mb-4">Review items and delivery</h4>
+                <ul id="cart-items">
+                  {% for key,item in cart.items %}
+                  <li data-product-id="{{ key }}" style="list-style-type: none">
+                    <div class="row gy-3 mb-4">
+                      <div class="col-lg-5">
+                        <div class="me-lg-5">
+                          <div class="d-flex">
+                            <img
+                              src="{{item.img}}"
+                              class="border rounded me-3"
+                              style="width: 96px; height: 96px"
+                            />
+                            <div class="">
+                              <h4>{{item.name}}</h4>
+                              <input
+                                type="text"
+                                name="order_id"
+                                value="{{cartorder_id}}"
+                                hidden
+                                id=""
+                              />
+                              <input
+                                type="text"
+                                name="product_id"
+                                value="{{key}}"
+                                hidden
+                              />
+
+                              <div
+                                style="
+                                  height: 40px;
+                                  width: 200px;
+                                  overflow: hidden;
+                                "
+                              >
+                                <p class="text-muted" style="font-size: 15px">
+                                  {{item.description}}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="col-lg-2 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap"
+                        style="margin-right: 30px"
+                      >
+                        <div class="col">
+                          <span
+                            style="
+                              padding: 5px 25px;
+                              border: 1px solid black;
+                              color: rgb(53, 53, 53);
+                              text-decoration: none;
+                              border-radius: 8px;
+                              margin: 0 5px;
+                            "
+                            name="product_quantity"
+                            class="border quantity"
+                            >Qty: {{ item.quantity }}</span
+                          >
+                          <input
+                            type="text"
+                            name="product_quantity"
+                            hidden
+                            value="{{item.quantity}}"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="col-lg-2 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap"
+                      >
+                        <div class="">
+                          <text class="h6" name="total">₹{{item.total}}</text>
+                          <input
+                            type="number"
+                            name="total"
+                            hidden
+                            value="{{item.total}}"
+                            id=""
+                          />
+                          <br />
+                          <small class="text-muted text-nowrap">
+                            ₹{{item.price}} / per item
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+            <div class="container-order">
+              <div class="form-title">Buyer information</div>
+              {% if u_id.is_company_user is not null %}
+              <div class="row">
+                <div class="col">
+                  <input
+                    class="form-control"
+                    placeholder="Enter Company Name"
+                    type="text"
+                    name="company_name"
+                  />
+                </div>
+                <div class="col">
+                  <input
+                    class="form-control col"
+                    placeholder="Enter Company Id"
+                    type="text"
+                    name="company_id"
+                  />
+                </div>
+              </div>
+              {% endif %}
+              <input
+                class="form-control"
+                placeholder="Full Name"
+                type="text"
+                name="customer_name"
+              />
+              <div class="row">
+                <div class="col">
+                  <input
+                    class="form-control"
+                    type="email"
+                    name="email"
+                    value="{{username}}"
+                  />
+                </div>
+                <div class="col">
+                  <input
+                    class="form-control"
+                    placeholder="Phone"
+                    type="number"
+                    name="mobile"
+                  />
+                </div>
+              </div>
+              <div class="form-title">Delivery addresses</div>
+              <input
+                class="form-control"
+                placeholder="city"
+                name="city"
+                type="text"
+              />
+              <input
+                class="form-control"
+                placeholder="Street"
+                name="street"
+                type="text"
+              />
+              <div class="row">
+                <div class="col">
+                  <input
+                    class="form-control"
+                    placeholder="Society Name"
+                    name="society"
+                    type="text"
+                  />
+                </div>
+                <div class="col">
+                  <input
+                    class="form-control"
+                    placeholder="Apartment number"
+                    type="text"
+                    name="apartment_number"
+                  />
+                </div>
+              </div>
+              <div class="dispensable">*dispensable</div>
+              <div class="form-title">Payment method</div>
+              <ul class="nav nav-tabs payment-methods">
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    id="cash-tab"
+                    onclick="showCardDetails()"
+                    style="cursor: pointer"
+                  >
+                    Card
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    id="upi-tab"
+                    onclick="showUpiDetails()"
+                    style="cursor: pointer"
+                  >
+                    UPI
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    id="cash-tab"
+                    onclick="showCashDetails()"
+                    style="cursor: pointer"
+                  >
+                    Cash On Delivery
+                  </a>
+                </li>
+              </ul>
+              <div class="mt-3" id="card-details">
+                <input
+                  type="checkbox"
+                  hidden
+                  name="card_payment"
+                  id="card-check"
+                />
+                <img
+                  alt="VISA logo"
+                  height="30"
+                  src="https://storage.googleapis.com/a1aa/image/O7fPnBQFMwUuISJQqUefXRWlCOeGK5tNjWHLGyhT8ecHOme7E.jpg"
+                  width="50"
+                />
+                <img
+                  alt="MasterCard logo"
+                  height="30"
+                  src="https://storage.googleapis.com/a1aa/image/w37gR1B8QI5OIJ9txQZla7kwNnTeVeqMzEwvXuigjvHxx0vTA.jpg"
+                  width="50"
+                />
+                <img
+                  alt="PayPal logo"
+                  height="30"
+                  src="https://storage.googleapis.com/a1aa/image/oLqdnOYUhL5BIJcJgbbE17OOiCz9HMdKrkp9dF2yHf95Y63JA.jpg"
+                  width="50"
+                />
+
+                <input
+                  class="form-control"
+                  style="margin-top: 10px"
+                  placeholder="Card number"
+                  type="text"
+                />
+                <div class="row">
+                  <div class="col">
+                    <input
+                      class="form-control"
+                      placeholder="Expiration Date"
+                      type="text"
+                    />
+                  </div>
+                  <div class="col">
+                    <input class="form-control" placeholder="CVV" type="text" />
+                  </div>
+                </div>
+
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    id="saveDetails"
+                    type="checkbox"
+                  />
+                  <label class="form-check-label" for="saveDetails">
+                    Save my payments details for future purchases
+                  </label>
+                </div>
+              </div>
+              <div class="mt-3" id="upi-details">
+                <input
+                  type="checkbox"
+                  hidden
+                  name="upi_payment"
+                  id="upi-check"
+                />
+                <input
+                  class="form-control"
+                  style="margin-top: 10px"
+                  placeholder="Enter UPI id"
+                  type="text"
+                />
+              </div>
+              <div class="mt-3" id="cash-details">
+                <input type="checkbox" name="cash_payment" id="cash-check" />
+
+                <label for="cashOnDelivery">Cash On Delivery</label>
+              </div>
+            </div>
+          </div>
+          <!-- summary -->
+          <div class="col-lg-3" style="margin: 20px auto">
+            <div class="card mb-3 border shadow-0">
+              <div class="card-body">
+                <div class="form-group">
+                  <label class="form-label">Have coupon?</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      class="form-control border"
+                      name=""
+                      placeholder="Coupon code"
+                    />
+                    <button class="btn btn-light border">Apply</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card shadow-0 border">
+              <div class="card-body">
+                <div class="d-flex justify-content-between">
+                  <p class="mb-2">Total price:</p>
+                  <p class="mb-2" id="total_price">₹{{final_total}}</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <p class="mb-2">Discount:</p>
+                  <p class="mb-2 text-success">-₹00.00</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <p class="mb-2">TAX:</p>
+                  <p class="mb-2">₹00.00</p>
+                </div>
+                <hr />
+                <div class="d-flex justify-content-between">
+                  <p class="mb-2">Total price:</p>
+                  <p class="mb-2 fw-bold" id="final_total">₹{{final_total}}</p>
+                </div>
+
+                <div class="mt-3">
+                  <button
+                    type="submit"
+                    class="btn btn-success w-100 shadow-0 mb-2"
+                  >
+                    Place Order
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- summary -->
+        </div>
+      </form>
+    </main>
+    <!-- Main end -->
+
+    <!-- Footer -->
+    <footer class="text-center text-lg-start bg-body-tertiary text-muted">
+      <!-- Section: Social media -->
+      <section
+        class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom"
+      >
+        <!-- Left -->
+        <div class="me-5 d-none d-lg-block">
+          <span>Get connected with us on social networks:</span>
+        </div>
+        <!-- Left -->
+
+        <!-- Right -->
+        <div>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-google"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-github"></i>
+          </a>
+        </div>
+        <!-- Right -->
+      </section>
+      <!-- Section: Social media -->
+
+      <!-- Section: Links  -->
+      <section class="">
+        <div class="container text-center text-md-start mt-5">
+          <!-- Grid row -->
+          <div class="row mt-3">
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+              <!-- Content -->
+              <h6 class="text-uppercase fw-bold mb-4">
+                <img
+                  src="/static/images/tea_cozy_logo.png"
+                  style="width: 200px"
+                  alt=""
+                />
+              </h6>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                Here you can use rows and columns to organize your footer
+                content. Lorem ipsum dolor sit amet, consectetur adipisicing
+                elit.
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6
+                class="text-uppercase fw-bold mb-4"
+                style="color: rgb(0, 64, 30)"
+              >
+                OUR POLICIES
+              </h6>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="text-decoration: none; color: rgba(0, 64, 30, 0.778)"
+                  >Privacy Policy</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="text-decoration: none; color: rgba(0, 64, 30, 0.778)"
+                  >Terms & Conditions</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a href="#!" class="text-reset" style="text-decoration: none"
+                  >Refund & Cancellation Policy</a
+                >
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6
+                class="text-uppercase fw-bold mb-4"
+                style="color: rgb(0, 64, 30)"
+              >
+                Useful links
+              </h6>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="color: rgb(0, 64, 30); text-decoration: none"
+                  >Home</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="color: rgb(0, 64, 30); text-decoration: none"
+                  >About</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="color: rgb(0, 64, 30); text-decoration: none"
+                  >Order online</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="color: rgb(0, 64, 30); text-decoration: none"
+                  >Blog</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="color: rgb(0, 64, 30); text-decoration: none"
+                  >Contact Us</a
+                >
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+              <!-- Links -->
+              <h6
+                class="text-uppercase fw-bold mb-4"
+                style="color: rgb(0, 64, 30)"
+              >
+                Contact
+              </h6>
+              <div style="display: flex">
+                <i
+                  style="padding-top: 5px; color: rgb(0, 64, 30)"
+                  class="fas fa-home me-3"
+                ></i>
+                <p style="color: rgba(0, 64, 30, 0.778)">
+                  D-001 Elanza Crest, Sindhu Bhavan Road, Bodakdev, Ahmedabad -
+                  380059. Gujarat, India
+                </p>
+              </div>
+
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <i class="fas fa-envelope me-3"></i>
+
+                support@teacozy.in
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <i class="fas fa-phone me-3"></i> + 01 234 567 88
+              </p>
+            </div>
+            <!-- Grid column -->
+          </div>
+          <!-- Grid row -->
+        </div>
+      </section>
+      <!-- Section: Links  -->
+
+      <!-- Copyright -->
+      <div
+        class="text-center p-4"
+        style="
+          background-color: rgba(0, 0, 0, 0.05);
+          color: rgba(0, 64, 30, 0.778);
+        "
+      >
+        © 2021 Copyright:
+        <a
+          class="text-reset fw-bold"
+          style="text-decoration: none"
+          href="https://mdbootstrap.com/"
+          >Teacozy.com</a
+        >
+      </div>
+      <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+    <!-- payment js -->
+    <script>
+      function showCardDetails() {
+        document.getElementById("card-details").style.display = "block";
+        document.getElementById("upi-details").style.display = "none";
+        document.getElementById("cash-details").style.display = "none";
+        document.getElementById("card-check").checked = true;
+        document.getElementById("cash-check").checked = false;
+        document.getElementById("upi-check").checked = false;
+      }
+
+      function showUpiDetails() {
+        document.getElementById("upi-details").style.display = "block";
+        document.getElementById("card-details").style.display = "none";
+        document.getElementById("cash-details").style.display = "none";
+        document.getElementById("card-check").checked = false;
+        document.getElementById("cash-check").checked = false;
+        document.getElementById("upi-check").checked = true;
+      }
+
+      function showCashDetails() {
+        document.getElementById("cash-details").style.display = "block";
+        document.getElementById("card-details").style.display = "none";
+        document.getElementById("upi-details").style.display = "none";
+        document.getElementById("card-check").checked = false;
+        document.getElementById("cash-check").checked = true;
+        document.getElementById("upi-check").checked = false;
+      }
+
+      // Initialize with card details shown
+      showCardDetails();
+    </script>
+    <!-- payment-js-end -->
+    <!-- Signup form javascript -->
+    <script>
+      function showCustomerForm() {
+        document.getElementById("customer-form").style.display = "block";
+        document.getElementById("company-form").style.display = "none";
+        document.getElementById("customer-checkbox").checked = true;
+        document.getElementById("company-checkbox").checked = false;
+
+        // Enable the customer form fields and disable the company form fields
+        toggleFormFields("customer-form", true);
+        toggleFormFields("company-form", false);
+      }
+
+      function showCompanyForm() {
+        document.getElementById("customer-form").style.display = "none";
+        document.getElementById("company-form").style.display = "block";
+        document.getElementById("company-checkbox").checked = true;
+        document.getElementById("customer-checkbox").checked = false;
+
+        // Enable the company form fields and disable the customer form fields
+        toggleFormFields("customer-form", false);
+        toggleFormFields("company-form", true);
+      }
+
+      function toggleCheckbox(currentCheckbox, otherCheckboxId) {
+        const otherCheckbox = document.getElementById(otherCheckboxId);
+        if (currentCheckbox.checked) {
+          otherCheckbox.checked = false;
+        }
+      }
+
+      function toggleFormFields(formId, isEnabled) {
+        const formElements = document
+          .getElementById(formId)
+          .querySelectorAll("input, select, textarea, button");
+        formElements.forEach((element) => {
+          element.disabled = !isEnabled; // Disable or enable based on the isEnabled parameter
+        });
+      }
+
+      // Set default to show customer form
+      showCustomerForm();
+    </script>
+    <!-- Javascript -->
+    <script src="/static/login/popup.js"></script>
+    <!-- Curousel script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

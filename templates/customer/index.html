@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<!-- Created By CodingLab - www.codinglabweb.com -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Home | Tea Cozy</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/static/images/logo_favicon1.png"
+    />
+    <link rel="stylesheet" href="/static/index/style.css" />
+    <link rel="stylesheet" href="/static/login/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- Bootstrap for corousel -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .inputAddress {
+        width: 100%; /* Full width */
+        padding: 10px; /* Padding for better usability */
+        font-size: 1rem; /* Font size */
+        color: #ffffff; /* Text color */
+        background-color: rgb(0, 66, 37); /* Background color */
+        resize: none; /* Prevent resizing the textarea */
+        outline: none;
+        border: none;
+        border-radius: 10px;
+      }
+      .inputAddress:focus {
+        outline: none; /* Remove outline */
+      }
+      hr {
+        background-color: white;
+        height: 2px;
+      }
+      .profile:hover {
+        background-color: unset;
+        color: rgb(66, 173, 189);
+      }
+      .logout:hover {
+        background-color: unset;
+        color: rgb(255, 83, 83);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Login Form Start -->
+    <div id="login-popup-container">
+      <div id="login-popup-content">
+        <form class="form-login" method="post">
+          {% csrf_token %}
+          <div class="flex-column">
+            <label>Email </label>
+          </div>
+          <div class="inputForm">
+            <i class="bi bi-at" style="color: white; font-size: 1.4rem"></i>
+            <input
+              type="email"
+              name="email"
+              class="input"
+              placeholder="Enter your Email"
+            />
+          </div>
+
+          <div class="flex-column">
+            <label>Password </label>
+          </div>
+          <div class="inputForm">
+            <i class="bi bi-lock" style="color: white; font-size: 1.4rem"></i>
+            <input
+              type="password"
+              name="password"
+              class="input"
+              placeholder="Enter your Password"
+            />
+          </div>
+
+          <div class="flex-row">
+            <div>
+              <input type="checkbox" />
+              <label style="color: white">Remember me </label>
+            </div>
+            <a
+              class="span"
+              href="/password_reset"
+              style="color: rgb(255, 207, 157)"
+              >Forgot password?</a
+            >
+          </div>
+          <button class="button-submit" name="signin" value="signin">
+            Sign In
+          </button>
+          <p class="p" style="color: white">
+            Don't have an account?
+            <a
+              id="signup-link"
+              style="text-decoration: none; color: rgb(255, 207, 157)"
+              href="#"
+              class="span"
+              >Sign Up</a
+            >
+          </p>
+        </form>
+      </div>
+    </div>
+    <!-- Login Form End -->
+    <!-- Signup Form Start -->
+    <div id="signup-popup-container">
+      <div id="signup-popup-content">
+        <form class="form-login" method="post">
+          {% csrf_token %}
+          <h1 style="text-align: center; color: white">Signup Form</h1>
+          <hr />
+          <div
+            class="button-selection"
+            style="display: flex; justify-content: space-between"
+          >
+            <button
+              type="button"
+              id="customer-btn"
+              onclick="showCustomerForm()"
+              style="
+                width: 300px;
+                background-color: #004225;
+                border: 1px solid white;
+                color: white;
+                height: 50px;
+                border-radius: 10px;
+              "
+            >
+              Customer
+            </button>
+            <button
+              type="button"
+              id="company-btn"
+              onclick="showCompanyForm()"
+              style="
+                width: 300px;
+                background-color: #004225;
+                border: 1px solid white;
+                color: white;
+                height: 50px;
+                border-radius: 10px;
+              "
+            >
+              Company Customer
+            </button>
+          </div>
+          <hr />
+          <!-- customer form -->
+          <div id="customer-form">
+            <input
+              hidden
+              type="checkbox"
+              id="customer-checkbox"
+              name="is_normal_user"
+              checked
+              onclick="toggleCheckbox(this, 'company-checkbox')"
+            />
+            <div class="row">
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Fullname </label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="text"
+                    name="full_name"
+                    class="input"
+                    placeholder="Enter your Fullname"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Email</label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-at"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="email"
+                    name="email"
+                    class="input"
+                    placeholder="Enter your Email"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Password </label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-lock"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="password"
+                    name="password1"
+                    class="input"
+                    placeholder="Enter your Password"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Confirm Password </label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-lock"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="password"
+                    name="password2"
+                    class="input"
+                    placeholder="Enter your Confirm Password"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-12" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Mobile Number</label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="number"
+                    pattern="\d{10,}"
+                    name="mobile"
+                    class="input"
+                    placeholder="Enter your Mobile Number"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- company customer form -->
+          <div id="company-form" style="display: none">
+            <input
+              hidden
+              type="checkbox"
+              id="company-checkbox"
+              name="is_comapny_user"
+              onclick="toggleCheckbox(this, 'customer-checkbox')"
+            />
+            <div class="row">
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Comapny Name </label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="text"
+                    name="comapny_name"
+                    class="input"
+                    placeholder="Enter your Company Name"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Comapny Id </label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="number"
+                    name="comapny_id"
+                    class="input"
+                    placeholder="Enter your Comapny Id"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Fullname </label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="text"
+                    name="full_name"
+                    class="input"
+                    placeholder="Enter your Fullname"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Email</label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-at"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="email"
+                    name="email"
+                    class="input"
+                    placeholder="Enter your Email"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Password </label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-lock"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="password"
+                    name="password1"
+                    class="input"
+                    placeholder="Enter your Password"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Confirm Password </label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-lock"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="password"
+                    name="password2"
+                    class="input"
+                    placeholder="Enter your Confirm Password"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="col-12" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Mobile Number</label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="number"
+                    pattern="\d{10,}"
+                    name="mobile"
+                    class="input"
+                    placeholder="Enter your Mobile Number"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- company cusyomer form-end -->
+          <input type="checkbox" name="is_customer" id="" checked hidden />
+          <button class="button-submit" name="signup" value="signup">
+            Sign Up
+          </button>
+        </form>
+      </div>
+    </div>
+    <!-- Signup Form End -->
+    <!-- Header Strat -->
+    <header>
+      <nav style="background-color: rgb(255, 176, 0)">
+        <div class="navbar">
+          <div class="logo">
+            <img src="/static/images/tea_cozy_logo.png" alt="" />
+          </div>
+          <ul class="menu mt-4">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/menu">Order Online</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/contact">Contact Us</a></li>
+          </ul>
+          <div class="search-box">
+            <button class="btn-search"><i class="fas fa-search"></i></button>
+            <input
+              type="text"
+              class="input-search"
+              placeholder="Type to Search..."
+            />
+          </div>
+          <div
+            class="account"
+            style="display: flex; justify-content: center; align-items: center"
+          >
+            {% if username is not none %}
+            <div class="dropdown me-4">
+              <button
+                class="dropdown-toggle"
+                type="button"
+                style="
+                  background-color: #004225;
+                  padding: 10px 15px;
+                  color: white;
+                  border: 0;
+                  border-radius: 10px;
+                "
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                {{username}}
+              </button>
+              <ul
+                class="dropdown-menu"
+                style="
+                  background-color: rgb(225, 225, 225);
+
+                  border: 0;
+                  width: 100%;
+                  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+                    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+                    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+                "
+              >
+                <li class="">
+                  <a class="dropdown-item profile" href="/updateprofile"
+                    >Profile</a
+                  >
+                </li>
+                <hr style="margin: 5px 0" />
+                <li class="">
+                  <a class="dropdown-item profile" href="/vieworder">Order's</a>
+                </li>
+                <hr style="margin: 5px 0" />
+                <li class="">
+                  <a class="dropdown-item logout" href="/userlogout">Logout</a>
+                </li>
+              </ul>
+            </div>
+            {% else %}
+            <i class="bi bi-person-circle me-4" id="login-btn"></i>
+            {% endif %}
+            <a href="/cart"><i class="bi bi-cart3" id="login-btn"></i></a>
+          </div>
+        </div>
+      </nav>
+      <div
+        id="carouselExample"
+        class="carousel slide carousel-fade"
+        data-bs-ride="carousel"
+        data-bs-interval="3000"
+      >
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img
+              src="/static/images/slide_1.jpg"
+              class="d-block w-100"
+              alt="First Slide"
+            />
+          </div>
+          <div class="carousel-item">
+            <img
+              src="/static/images/slide_2.jpg"
+              class="d-block w-100"
+              alt="Second Slide"
+            />
+          </div>
+          <div class="carousel-item">
+            <img
+              src="/static/images/slide_3.jpg"
+              class="d-block w-100"
+              alt="Third Slide"
+            />
+          </div>
+        </div>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExample"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExample"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </header>
+    <!-- Header end -->
+
+    <!-- Main Start -->
+    <main style="margin: 50px 0 0px 0">
+      <!-- Menu section -->
+      <h3 style="text-align: center; font-size: 3rem; color: rgb(0, 64, 30)">
+        Menu
+      </h3>
+      <div style="display: flex; padding: 0 20px; text-align: center">
+        <div style="padding: 20px 10px 0">
+          <img
+            src="/static/images/menu1.jpg"
+            style="
+              width: 90%;
+              border-radius: 15px;
+              outline: 1px solid rgba(255, 255, 255, 0.482);
+              outline-offset: -12px;
+            "
+            alt=""
+          />
+          <h3 style="margin: 20px 0 10px 0; color: rgb(0, 64, 30)">Tea</h3>
+          <p style="color: rgba(0, 64, 30, 0.778); width: 300px; margin: auto">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. sit amet
+          </p>
+        </div>
+        <div style="padding: 20px 10px 0">
+          <img
+            src="/static/images/coffee.jpg"
+            style="
+              width: 90%;
+              border-radius: 15px;
+              outline: 1px solid rgba(255, 255, 255, 0.482);
+              outline-offset: -12px;
+            "
+            alt=""
+          />
+          <h3 style="margin: 20px 0 10px 0; color: rgb(0, 64, 30)">Coffee</h3>
+          <p style="color: rgba(0, 64, 30, 0.778); width: 300px; margin: auto">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. sit amet
+          </p>
+        </div>
+        <div style="padding: 20px 10px 0">
+          <img
+            src="/static/images/cookies.jpg"
+            style="
+              width: 90%;
+              border-radius: 15px;
+              outline: 1px solid rgba(255, 255, 255, 0.482);
+              outline-offset: -12px;
+            "
+            alt=""
+          />
+          <h3 style="margin: 20px 0 10px 0; color: rgb(0, 64, 30)">Coockies</h3>
+          <p style="color: rgba(0, 64, 30, 0.778); width: 300px; margin: auto">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. sit amet
+          </p>
+        </div>
+        <div style="padding: 20px 10px 0">
+          <img
+            src="/static/images/green_tea.jpg"
+            style="
+              width: 90%;
+              border-radius: 15px;
+              outline: 1px solid rgba(255, 255, 255, 0.482);
+              outline-offset: -12px;
+            "
+            alt=""
+          />
+          <h3 style="margin: 20px 0 10px 0; color: rgb(0, 64, 30)">
+            Green Tea
+          </h3>
+          <p style="color: rgba(0, 64, 30, 0.778); width: 300px; margin: auto">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. sit amet
+          </p>
+        </div>
+      </div>
+
+      <!-- Why we section -->
+      <div
+        style="
+          margin: 50px 0 0 0;
+          background-color: #f5f5dc;
+          height: 400px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <h3
+          style="
+            text-align: center;
+            font-size: 3rem;
+            color: rgb(0, 64, 30);
+            margin-bottom: 50px;
+          "
+        >
+          Why We?
+        </h3>
+        <div
+          style="display: flex; justify-content: center; align-items: center"
+        >
+          <div style="width: 300px; text-align: center">
+            <img
+              style="width: 80px; height: 80px; margin-bottom: 30px"
+              src="/static/images/cup.png"
+              alt=""
+            />
+            <h4 style="font-weight: bold; color: rgb(0, 64, 30)">Best Tea</h4>
+            <p style="color: rgba(0, 64, 30, 0.778)">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod.
+            </p>
+          </div>
+          <div style="width: 300px; text-align: center">
+            <img
+              style="width: 80px; height: 80px; margin-bottom: 30px"
+              src="/static/images/watch.png"
+              alt=""
+            />
+            <h4 style="font-weight: bold; color: rgb(0, 64, 30)">
+              Fast service
+            </h4>
+            <p style="color: rgba(0, 64, 30, 0.778)">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod.
+            </p>
+          </div>
+          <div style="width: 300px; text-align: center">
+            <img
+              style="width: 80px; height: 80px; margin-bottom: 30px"
+              src="/static/images/menu.png"
+              alt=""
+            />
+            <h4 style="font-weight: bold; color: rgb(0, 64, 30)">Good menu</h4>
+            <p style="color: rgba(0, 64, 30, 0.778)">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod.
+            </p>
+          </div>
+          <div style="width: 300px; text-align: center">
+            <img
+              style="width: 80px; height: 80px; margin-bottom: 30px"
+              src="/static/images/bell.png"
+              alt=""
+            />
+            <h4 style="font-weight: bold; color: rgb(0, 64, 30)">Just good</h4>
+            <p style="color: rgba(0, 64, 30, 0.778)">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod.
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Main end -->
+
+    <!-- Footer -->
+    <footer class="text-center text-lg-start bg-body-tertiary text-muted">
+      <!-- Section: Social media -->
+      <section
+        class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom"
+      >
+        <!-- Left -->
+        <div class="me-5 d-none d-lg-block">
+          <span>Get connected with us on social networks:</span>
+        </div>
+        <!-- Left -->
+
+        <!-- Right -->
+        <div>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-google"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-github"></i>
+          </a>
+        </div>
+        <!-- Right -->
+      </section>
+      <!-- Section: Social media -->
+
+      <!-- Section: Links  -->
+      <section class="">
+        <div class="container text-center text-md-start mt-5">
+          <!-- Grid row -->
+          <div class="row mt-3">
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+              <!-- Content -->
+              <h6 class="text-uppercase fw-bold mb-4">
+                <img
+                  src="/static/images/tea_cozy_logo.png"
+                  style="width: 200px"
+                  alt=""
+                />
+              </h6>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                Here you can use rows and columns to organize your footer
+                content. Lorem ipsum dolor sit amet, consectetur adipisicing
+                elit.
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6
+                class="text-uppercase fw-bold mb-4"
+                style="color: rgb(0, 64, 30)"
+              >
+                OUR POLICIES
+              </h6>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="text-decoration: none; color: rgba(0, 64, 30, 0.778)"
+                  >Privacy Policy</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="text-decoration: none; color: rgba(0, 64, 30, 0.778)"
+                  >Terms & Conditions</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a href="#!" class="text-reset" style="text-decoration: none"
+                  >Refund & Cancellation Policy</a
+                >
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6
+                class="text-uppercase fw-bold mb-4"
+                style="color: rgb(0, 64, 30)"
+              >
+                Useful links
+              </h6>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="color: rgb(0, 64, 30); text-decoration: none"
+                  >Home</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="color: rgb(0, 64, 30); text-decoration: none"
+                  >About</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="color: rgb(0, 64, 30); text-decoration: none"
+                  >Order online</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="color: rgb(0, 64, 30); text-decoration: none"
+                  >Blog</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="color: rgb(0, 64, 30); text-decoration: none"
+                  >Contact Us</a
+                >
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+              <!-- Links -->
+              <h6
+                class="text-uppercase fw-bold mb-4"
+                style="color: rgb(0, 64, 30)"
+              >
+                Contact
+              </h6>
+              <div style="display: flex">
+                <i
+                  style="padding-top: 5px; color: rgb(0, 64, 30)"
+                  class="fas fa-home me-3"
+                ></i>
+                <p style="color: rgba(0, 64, 30, 0.778)">
+                  D-001 Elanza Crest, Sindhu Bhavan Road, Bodakdev, Ahmedabad -
+                  380059. Gujarat, India
+                </p>
+              </div>
+
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <i class="fas fa-envelope me-3"></i>
+
+                support@teacozy.in
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <i class="fas fa-phone me-3"></i> + 01 234 567 88
+              </p>
+            </div>
+            <!-- Grid column -->
+          </div>
+          <!-- Grid row -->
+        </div>
+      </section>
+      <!-- Section: Links  -->
+
+      <!-- Copyright -->
+      <div
+        class="text-center p-4"
+        style="
+          background-color: rgba(0, 0, 0, 0.05);
+          color: rgba(0, 64, 30, 0.778);
+        "
+      >
+        © 2021 Copyright:
+        <a
+          class="text-reset fw-bold"
+          style="text-decoration: none"
+          href="https://mdbootstrap.com/"
+          >Teacozy.com</a
+        >
+      </div>
+      <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+    <!-- Signup form javascript -->
+    <script>
+      function showCustomerForm() {
+        document.getElementById("customer-form").style.display = "block";
+        document.getElementById("company-form").style.display = "none";
+        document.getElementById("customer-checkbox").checked = true;
+        document.getElementById("company-checkbox").checked = false;
+
+        // Enable the customer form fields and disable the company form fields
+        toggleFormFields("customer-form", true);
+        toggleFormFields("company-form", false);
+      }
+
+      function showCompanyForm() {
+        document.getElementById("customer-form").style.display = "none";
+        document.getElementById("company-form").style.display = "block";
+        document.getElementById("company-checkbox").checked = true;
+        document.getElementById("customer-checkbox").checked = false;
+
+        // Enable the company form fields and disable the customer form fields
+        toggleFormFields("customer-form", false);
+        toggleFormFields("company-form", true);
+      }
+
+      function toggleCheckbox(currentCheckbox, otherCheckboxId) {
+        const otherCheckbox = document.getElementById(otherCheckboxId);
+        if (currentCheckbox.checked) {
+          otherCheckbox.checked = false;
+        }
+      }
+
+      function toggleFormFields(formId, isEnabled) {
+        const formElements = document
+          .getElementById(formId)
+          .querySelectorAll("input, select, textarea, button");
+        formElements.forEach((element) => {
+          element.disabled = !isEnabled; // Disable or enable based on the isEnabled parameter
+        });
+      }
+
+      // Set default to show customer form
+      showCustomerForm();
+    </script>
+    <!-- Javascript -->
+    <script src="/static/login/popup.js"></script>
+    <!-- Curousel script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

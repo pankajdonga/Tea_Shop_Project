@@ -1,0 +1,1038 @@
+{% load math_filter %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cart | Tea Cozy</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/static/images/logo_favicon1.png"
+    />
+    <link rel="stylesheet" href="/static/index/style.css" />
+    <link rel="stylesheet" href="/static/login/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- Bootstrap for corousel -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- cart js -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- cart-css -->
+    <style>
+      .icon-hover-primary:hover {
+        border-color: #3b71ca !important;
+        background-color: white !important;
+      }
+
+      .icon-hover-primary:hover i {
+        color: #3b71ca !important;
+      }
+      .icon-hover-danger:hover {
+        border-color: #dc4c64 !important;
+        background-color: white !important;
+      }
+
+      .icon-hover-danger:hover i {
+        color: #dc4c64 !important;
+      }
+      .inputAddress {
+        width: 100%; /* Full width */
+        padding: 10px; /* Padding for better usability */
+        font-size: 1rem; /* Font size */
+        color: #ffffff; /* Text color */
+        background-color: rgb(0, 66, 37); /* Background color */
+        resize: none; /* Prevent resizing the textarea */
+        outline: none;
+        border: none;
+        border-radius: 10px;
+      }
+      .inputAddress:focus {
+        outline: none; /* Remove outline */
+      }
+      hr {
+        background-color: white;
+        height: 2px;
+      }
+      .profile:hover {
+        background-color: unset;
+        color: rgb(66, 173, 189);
+      }
+      .logout:hover {
+        background-color: unset;
+        color: rgb(255, 83, 83);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Login Form Start -->
+    <div id="login-popup-container">
+      <div id="login-popup-content">
+        <form class="form-login" method="post">
+          {% csrf_token %}
+          <div class="flex-column">
+            <label>Email </label>
+          </div>
+          <div class="inputForm">
+            <i class="bi bi-at" style="color: white; font-size: 1.4rem"></i>
+            <input
+              type="email"
+              name="email"
+              class="input"
+              placeholder="Enter your Email"
+            />
+          </div>
+
+          <div class="flex-column">
+            <label>Password </label>
+          </div>
+          <div class="inputForm">
+            <i class="bi bi-lock" style="color: white; font-size: 1.4rem"></i>
+            <input
+              type="password"
+              name="password"
+              class="input"
+              placeholder="Enter your Password"
+            />
+          </div>
+
+          <div class="flex-row">
+            <div>
+              <input type="checkbox" />
+              <label style="color: white">Remember me </label>
+            </div>
+            <a
+              href="/password_reset"
+              class="span"
+              style="color: rgb(255, 207, 157)"
+              >Forgot password?</a
+            >
+          </div>
+          <button class="button-submit" name="signin" value="signin">
+            Sign In
+          </button>
+          <p class="p" style="color: white">
+            Don't have an account?
+            <a
+              id="signup-link"
+              style="text-decoration: none; color: rgb(255, 207, 157)"
+              href="#"
+              class="span"
+              >Sign Up</a
+            >
+          </p>
+        </form>
+      </div>
+    </div>
+    <!-- Login Form End -->
+    <!-- Signup Form Start -->
+    <div id="signup-popup-container">
+      <div id="signup-popup-content">
+        <form class="form-login" method="post">
+          {% csrf_token %}
+          <h1 style="text-align: center; color: white">Signup Form</h1>
+          <hr style="background-color: white; height: 2px" />
+          <div
+            class="button-selection"
+            style="display: flex; justify-content: space-between"
+          >
+            <button
+              type="button"
+              id="customer-btn"
+              onclick="showCustomerForm()"
+              style="
+                width: 300px;
+                background-color: #004225;
+                border: 1px solid white;
+                color: white;
+                height: 50px;
+                border-radius: 10px;
+              "
+            >
+              Customer
+            </button>
+            <button
+              type="button"
+              id="company-btn"
+              onclick="showCompanyForm()"
+              style="
+                width: 300px;
+                background-color: #004225;
+                border: 1px solid white;
+                color: white;
+                height: 50px;
+                border-radius: 10px;
+              "
+            >
+              Company Customer
+            </button>
+          </div>
+          <hr style="background-color: white; height: 2px" />
+          <!-- customer form -->
+          <div id="customer-form">
+            <input
+              hidden
+              type="checkbox"
+              id="customer-checkbox"
+              name="is_normal_user"
+              checked
+              onclick="toggleCheckbox(this, 'company-checkbox')"
+            />
+            <div class="row">
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Fullname </label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="text"
+                    name="full_name"
+                    class="input"
+                    placeholder="Enter your Fullname"
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Email</label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-at"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="email"
+                    name="email"
+                    class="input"
+                    placeholder="Enter your Email"
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Password </label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-lock"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="password"
+                    name="password1"
+                    class="input"
+                    placeholder="Enter your Password"
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Confirm Password </label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-lock"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="password"
+                    name="password2"
+                    class="input"
+                    placeholder="Enter your Confirm Password"
+                  />
+                </div>
+              </div>
+              <div class="col-12" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Mobile Number</label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="number"
+                    pattern="\d{10,}"
+                    name="mobile"
+                    class="input"
+                    placeholder="Enter your Mobile Number"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- company customer form -->
+          <div id="company-form" style="display: none">
+            <input
+              hidden
+              type="checkbox"
+              id="company-checkbox"
+              name="is_comapny_user"
+              onclick="toggleCheckbox(this, 'customer-checkbox')"
+            />
+            <div class="row">
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Comapny Name </label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="text"
+                    name="comapny_name"
+                    class="input"
+                    placeholder="Enter your Company Name"
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Comapny Id </label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="number"
+                    name="comapny_id"
+                    class="input"
+                    placeholder="Enter your Comapny Id"
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Fullname </label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="text"
+                    name="full_name"
+                    class="input"
+                    placeholder="Enter your Fullname"
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Email</label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-at"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="email"
+                    name="email"
+                    class="input"
+                    placeholder="Enter your Email"
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Password </label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-lock"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="password"
+                    name="password1"
+                    class="input"
+                    placeholder="Enter your Password"
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Confirm Password </label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-lock"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="password"
+                    name="password2"
+                    class="input"
+                    placeholder="Enter your Confirm Password"
+                  />
+                </div>
+              </div>
+              <div class="col-12" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Mobile Number</label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="number"
+                    pattern="\d{10,}"
+                    name="mobile"
+                    class="input"
+                    placeholder="Enter your Mobile Number"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- company cusyomer form-end -->
+          <input type="checkbox" name="is_customer" id="" checked hidden />
+          <button class="button-submit" name="signup" value="signup">
+            Sign Up
+          </button>
+        </form>
+      </div>
+    </div>
+    <!-- Signup Form End -->
+    <!-- Header Strat -->
+    <header>
+      <nav style="background-color: rgb(255, 176, 0)">
+        <div class="navbar">
+          <div class="logo">
+            <img src="/static/images/tea_cozy_logo.png" alt="" />
+          </div>
+          <ul class="menu mt-4">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/menu">Order Online</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/contact">Contact Us</a></li>
+          </ul>
+          <div class="search-box">
+            <button class="btn-search"><i class="fas fa-search"></i></button>
+            <input
+              type="text"
+              class="input-search"
+              placeholder="Type to Search..."
+            />
+          </div>
+          <div
+            class="account"
+            style="display: flex; justify-content: center; align-items: center"
+          >
+            {% if username is not none %}
+            <div class="dropdown me-4">
+              <button
+                class="dropdown-toggle"
+                type="button"
+                style="
+                  background-color: #004225;
+                  padding: 10px 15px;
+                  color: white;
+                  border: 0;
+                  border-radius: 10px;
+                "
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                {{username}}
+              </button>
+              <ul
+                class="dropdown-menu"
+                style="
+                  background-color: rgb(225, 225, 225);
+
+                  border: 0;
+                  width: 100%;
+                  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+                    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+                    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+                "
+              >
+                <li class="">
+                  <a class="dropdown-item profile" href="/updateprofile"
+                    >Profile</a
+                  >
+                </li>
+                <hr style="margin: 5px 0" />
+                <li class="">
+                  <a class="dropdown-item profile" href="/vieworder">Order's</a>
+                </li>
+                <hr style="margin: 5px 0" />
+                <li class="">
+                  <a class="dropdown-item logout" href="/userlogout">Logout</a>
+                </li>
+              </ul>
+            </div>
+            {% else %}
+            <i class="bi bi-person-circle me-4" id="login-btn"></i>
+            {% endif %}
+            <a href="/cart"><i class="bi bi-cart3" id="login-btn"></i></a>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <!-- Header end -->
+
+    <!-- Main Start -->
+    <main style="margin: 100px 0 0px 0">
+      {% if cart_total == 0 %}
+      <!-- empty cart -->
+      <section style="height: 80vh">
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+            width: 800px;
+            margin: auto;
+          "
+        >
+          <img
+            style="width: 200px; margin-bottom: 20px"
+            src="/static/images/cart.png"
+            alt=""
+          />
+          <h3 style="margin-bottom: 20px">YOUR CART IS CURRENTLY EMPTY</h3>
+          <p style="margin-bottom: 20px; text-align: center">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio
+            corrupti molestias accusamus quis dolor ipsa labore non.
+          </p>
+        </div>
+      </section>
+      <!-- cart section -->
+      {% else %}
+      <section>
+        <form method="post">
+          {% csrf_token %}
+          <div class="container">
+            <div class="row">
+              <!-- cart -->
+              <div class="col-lg-9">
+                <div class="card border shadow-0">
+                  <div class="m-4">
+                    <h4 class="card-title mb-4">Your shopping cart</h4>
+                    <ul id="cart-items">
+                      {% for key,item in cart.items %}
+                      <li
+                        data-product-id="{{ key }}"
+                        style="list-style-type: none"
+                      >
+                        <div class="row gy-3 mb-4">
+                          <div class="col-lg-5">
+                            <div class="me-lg-5">
+                              <div class="d-flex">
+                                <img
+                                  src="{{item.img}}"
+                                  class="border rounded me-3"
+                                  style="width: 96px; height: 96px"
+                                />
+                                <div class="">
+                                  <h4>{{item.name}}</h4>
+                                  <div
+                                    style="
+                                      height: 40px;
+                                      width: 200px;
+                                      overflow: hidden;
+                                    "
+                                  >
+                                    <p
+                                      class="text-muted"
+                                      style="font-size: 15px"
+                                    >
+                                      {{item.description}}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="col-lg-2 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap"
+                            style="margin-right: 30px"
+                          >
+                            <div class="col">
+                              <a
+                                href="#"
+                                data-id="{{ key }}"
+                                class="decrease-quantity"
+                                style="
+                                  padding: 5px 10px;
+                                  border: 1px solid rgb(205, 205, 205);
+                                  color: rgb(53, 53, 53);
+                                  text-decoration: none;
+                                  border-radius: 50%;
+                                  width: 20px;
+                                  height: 20px;
+                                "
+                                >-</a
+                              ><span
+                                style="
+                                  padding: 5px 25px;
+                                  border: 1px solid black;
+                                  color: rgb(53, 53, 53);
+                                  text-decoration: none;
+                                  border-radius: 8px;
+                                  margin: 0 5px;
+                                "
+                                class="border quantity"
+                                >{{ item.quantity }}</span
+                              ><a
+                                class="increase-quantity"
+                                data-id="{{ key }}"
+                                style="
+                                  padding: 5px 10px;
+                                  border: 1px solid rgb(205, 205, 205);
+                                  color: rgb(53, 53, 53);
+                                  text-decoration: none;
+                                  border-radius: 50%;
+                                  width: 20px;
+                                  height: 20px;
+                                "
+                                href="#"
+                                >+</a
+                              >
+                            </div>
+                          </div>
+                          <div
+                            class="col-lg-2 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap"
+                          >
+                            <div class="">
+                              <text class="h6">₹{{item.total}}</text>
+                              <span class="singlePiece" hidden
+                                >{{item.price}}</span
+                              >
+                              <br />
+                              <small class="text-muted text-nowrap">
+                                ₹{{item.price}} / per item
+                              </small>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- cart -->
+              <!-- summary -->
+              <div class="col-lg-3">
+                <div class="card mb-3 border shadow-0">
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label class="form-label">Have coupon?</label>
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          class="form-control border"
+                          name=""
+                          placeholder="Coupon code"
+                        />
+                        <button class="btn btn-light border">Apply</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card shadow-0 border">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <p class="mb-2">Total price:</p>
+                      <p class="mb-2" id="total_price">₹</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <p class="mb-2">Discount:</p>
+                      <p class="mb-2 text-success">-₹00.00</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <p class="mb-2">TAX:</p>
+                      <p class="mb-2">₹00.00</p>
+                    </div>
+                    <hr />
+                    <div class="d-flex justify-content-between">
+                      <p class="mb-2">Total price:</p>
+                      <p class="mb-2 fw-bold" id="final_total">₹</p>
+                    </div>
+
+                    <div class="mt-3">
+                      <a
+                        href="/revieworder"
+                        class="btn btn-success w-100 shadow-0 mb-2"
+                      >
+                        Make Purchase
+                      </a>
+                      <a href="/menu" class="btn btn-light w-100 border mt-2">
+                        Back to shop
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- summary -->
+            </div>
+          </div>
+        </form>
+      </section>
+      {% endif %}
+    </main>
+    <!-- Main end -->
+
+    <!-- Footer -->
+    <footer class="text-center text-lg-start bg-body-tertiary text-muted">
+      <!-- Section: Social media -->
+      <section
+        class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom"
+      >
+        <!-- Left -->
+        <div class="me-5 d-none d-lg-block">
+          <span>Get connected with us on social networks:</span>
+        </div>
+        <!-- Left -->
+
+        <!-- Right -->
+        <div>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-google"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-github"></i>
+          </a>
+        </div>
+        <!-- Right -->
+      </section>
+      <!-- Section: Social media -->
+
+      <!-- Section: Links  -->
+      <section class="">
+        <div class="container text-center text-md-start mt-5">
+          <!-- Grid row -->
+          <div class="row mt-3">
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+              <!-- Content -->
+              <h6 class="text-uppercase fw-bold mb-4">
+                <img
+                  src="/static/images/tea_cozy_logo.png"
+                  style="width: 200px"
+                  alt=""
+                />
+              </h6>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                Here you can use rows and columns to organize your footer
+                content. Lorem ipsum dolor sit amet, consectetur adipisicing
+                elit.
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6
+                class="text-uppercase fw-bold mb-4"
+                style="color: rgb(0, 64, 30)"
+              >
+                OUR POLICIES
+              </h6>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="text-decoration: none; color: rgba(0, 64, 30, 0.778)"
+                  >Privacy Policy</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="text-decoration: none; color: rgba(0, 64, 30, 0.778)"
+                  >Terms & Conditions</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a href="#!" class="text-reset" style="text-decoration: none"
+                  >Refund & Cancellation Policy</a
+                >
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6
+                class="text-uppercase fw-bold mb-4"
+                style="color: rgb(0, 64, 30)"
+              >
+                Useful links
+              </h6>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="color: rgb(0, 64, 30); text-decoration: none"
+                  >Home</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="color: rgb(0, 64, 30); text-decoration: none"
+                  >About</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="color: rgb(0, 64, 30); text-decoration: none"
+                  >Order online</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="color: rgb(0, 64, 30); text-decoration: none"
+                  >Blog</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="color: rgb(0, 64, 30); text-decoration: none"
+                  >Contact Us</a
+                >
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+              <!-- Links -->
+              <h6
+                class="text-uppercase fw-bold mb-4"
+                style="color: rgb(0, 64, 30)"
+              >
+                Contact
+              </h6>
+              <div style="display: flex">
+                <i
+                  style="padding-top: 5px; color: rgb(0, 64, 30)"
+                  class="fas fa-home me-3"
+                ></i>
+                <p style="color: rgba(0, 64, 30, 0.778)">
+                  D-001 Elanza Crest, Sindhu Bhavan Road, Bodakdev, Ahmedabad -
+                  380059. Gujarat, India
+                </p>
+              </div>
+
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <i class="fas fa-envelope me-3"></i>
+
+                support@teacozy.in
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <i class="fas fa-phone me-3"></i> + 01 234 567 88
+              </p>
+            </div>
+            <!-- Grid column -->
+          </div>
+          <!-- Grid row -->
+        </div>
+      </section>
+      <!-- Section: Links  -->
+
+      <!-- Copyright -->
+      <div
+        class="text-center p-4"
+        style="
+          background-color: rgba(0, 0, 0, 0.05);
+          color: rgba(0, 64, 30, 0.778);
+        "
+      >
+        © 2021 Copyright:
+        <a
+          class="text-reset fw-bold"
+          style="text-decoration: none"
+          href="https://mdbootstrap.com/"
+          >Teacozy.com</a
+        >
+      </div>
+      <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+    <!-- cart-js -->
+    <script>
+      $(document).ready(function () {
+        function updateTotalPrice() {
+          let total = 0;
+          let totalQuantity = 0; // Initialize total quantity
+          $("#cart-items li").each(function () {
+            const quantity = parseInt($(this).find(".quantity").text());
+            const pricePerItem = parseFloat(
+              $(this).find(".h6").text().replace("₹", "")
+            );
+            const itemTotalPrice = pricePerItem;
+            total += itemTotalPrice; // Calculate total for this item
+            totalQuantity += quantity; // Add to total quantity
+          });
+          $("#total_price").text("₹" + total); // Update total price display
+          $("#cart_total").text(totalQuantity); // Update total quantity display
+          $("#final_total").text("₹" + total); // Update Final total price display
+          sessionStorage.setItem("new_total", totalQuantity);
+        }
+
+        $(".increase-quantity").on("click", function (event) {
+          event.preventDefault();
+          var productId = $(this).closest("li").data("product-id");
+          console.log("Increasing quantity for product ID:", productId); // Debugging line
+          $.ajax({
+            url: "/update-cart/",
+            method: "POST",
+            data: {
+              product_id: productId,
+              action: "increase",
+              csrfmiddlewaretoken: "{{ csrf_token }}", // Ensure CSRF token is included
+            },
+            success: function (response) {
+              var quantityElement = $(
+                'li[data-product-id="' + productId + '"] .quantity'
+              );
+              var newPrice = $('li[data-product-id="' + productId + '"] .h6');
+              var priceElement = $(
+                'li[data-product-id="' + productId + '"] .singlePiece'
+              );
+              var currentQuantity = parseInt(quantityElement.text()) + 1;
+              quantityElement.text(currentQuantity);
+
+              // Update the item's total price display
+              var pricePerItem = parseInt(priceElement.text()); // Get the price per item
+
+              var newTotalPrice = pricePerItem * currentQuantity;
+              newPrice.text("₹" + newTotalPrice); // Update the displayed total price for this item
+              updateTotalPrice();
+            },
+            error: function (xhr, status, error) {
+              console.error(xhr.responseJSON.error); // Log the error
+              alert(xhr.responseJSON.error || "Error updating quantity.");
+            },
+          });
+        });
+
+        $(".decrease-quantity").on("click", function (event) {
+          event.preventDefault();
+          var productId = $(this).closest("li").data("product-id");
+          console.log("Decreasing quantity for product ID:", productId); // Debugging line
+          $.ajax({
+            url: "/update-cart/",
+            method: "POST",
+            data: {
+              product_id: productId,
+              action: "decrease",
+              csrfmiddlewaretoken: "{{ csrf_token }}", // Ensure CSRF token is included
+            },
+            success: function (response) {
+              var quantityElement = $(
+                'li[data-product-id="' + productId + '"] .quantity'
+              );
+              var newPrice = $('li[data-product-id="' + productId + '"] .h6');
+              var priceElement = $(
+                'li[data-product-id="' + productId + '"] .singlePiece'
+              );
+              var currentQuantity = parseInt(quantityElement.text()) - 1;
+
+              if (currentQuantity > 0) {
+                quantityElement.text(currentQuantity);
+
+                // Update the item's total price display
+                var pricePerItem = parseInt(priceElement.text()); // Get the price per item
+
+                var newTotalPrice = pricePerItem * currentQuantity;
+                newPrice.text("₹" + newTotalPrice); // Update the displayed total price for this item
+              } else {
+                $('li[data-product-id="' + productId + '"]').remove(); // Remove the item if quantity is zero
+              }
+              updateTotalPrice();
+            },
+            error: function (xhr, status, error) {
+              console.error(xhr.responseJSON.error); // Log the error
+              alert(xhr.responseJSON.error || "Error updating quantity.");
+            },
+          });
+        });
+        updateTotalPrice();
+      });
+    </script>
+    <!-- cart-js-end -->
+    <!-- Signup form javascript -->
+    <script>
+      function showCustomerForm() {
+        document.getElementById("customer-form").style.display = "block";
+        document.getElementById("company-form").style.display = "none";
+        document.getElementById("customer-checkbox").checked = true;
+        document.getElementById("company-checkbox").checked = false;
+
+        // Enable the customer form fields and disable the company form fields
+        toggleFormFields("customer-form", true);
+        toggleFormFields("company-form", false);
+      }
+
+      function showCompanyForm() {
+        document.getElementById("customer-form").style.display = "none";
+        document.getElementById("company-form").style.display = "block";
+        document.getElementById("company-checkbox").checked = true;
+        document.getElementById("customer-checkbox").checked = false;
+
+        // Enable the company form fields and disable the customer form fields
+        toggleFormFields("customer-form", false);
+        toggleFormFields("company-form", true);
+      }
+
+      function toggleCheckbox(currentCheckbox, otherCheckboxId) {
+        const otherCheckbox = document.getElementById(otherCheckboxId);
+        if (currentCheckbox.checked) {
+          otherCheckbox.checked = false;
+        }
+      }
+
+      function toggleFormFields(formId, isEnabled) {
+        const formElements = document
+          .getElementById(formId)
+          .querySelectorAll("input, select, textarea, button");
+        formElements.forEach((element) => {
+          element.disabled = !isEnabled; // Disable or enable based on the isEnabled parameter
+        });
+      }
+
+      // Set default to show customer form
+      showCustomerForm();
+    </script>
+    <!-- Javascript -->
+    <script src="/static/login/popup.js"></script>
+    <!-- Curousel script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

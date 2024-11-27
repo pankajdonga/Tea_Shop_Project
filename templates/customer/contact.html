@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<!-- Created By CodingLab - www.codinglabweb.com -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Contact | Tea Cozy</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/static/images/logo_favicon1.png"
+    />
+    <link rel="stylesheet" href="/static/index/style.css" />
+    <link rel="stylesheet" href="/static/login/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- Bootstrap for corousel -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- contact form bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    />
+    <style>
+      .inputAddress {
+        width: 100%; /* Full width */
+        padding: 10px; /* Padding for better usability */
+        font-size: 1rem; /* Font size */
+        color: #ffffff; /* Text color */
+        background-color: rgb(0, 66, 37); /* Background color */
+        resize: none; /* Prevent resizing the textarea */
+        outline: none;
+        border: none;
+        border-radius: 10px;
+      }
+      .inputAddress:focus {
+        outline: none; /* Remove outline */
+      }
+      hr {
+        background-color: white;
+        height: 2px;
+      }
+      .profile:hover {
+        background-color: unset;
+        color: rgb(66, 173, 189);
+      }
+      .logout:hover {
+        background-color: unset;
+        color: rgb(255, 83, 83);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Login Form Start -->
+    <div id="login-popup-container">
+      <div id="login-popup-content">
+        <form class="form-login" method="post">
+          {% csrf_token %}
+          <div class="flex-column">
+            <label>Email </label>
+          </div>
+          <div class="inputForm">
+            <i class="bi bi-at" style="color: white; font-size: 1.4rem"></i>
+            <input
+              type="email"
+              name="email"
+              class="input"
+              placeholder="Enter your Email"
+            />
+          </div>
+
+          <div class="flex-column">
+            <label>Password </label>
+          </div>
+          <div class="inputForm">
+            <i class="bi bi-lock" style="color: white; font-size: 1.4rem"></i>
+            <input
+              type="password"
+              name="password"
+              class="input"
+              placeholder="Enter your Password"
+            />
+          </div>
+
+          <div class="flex-row">
+            <div>
+              <input type="checkbox" />
+              <label style="color: white">Remember me </label>
+            </div>
+            <a
+              href="/password_reset"
+              class="span"
+              style="color: rgb(255, 207, 157)"
+              >Forgot password?</a
+            >
+          </div>
+          <button class="button-submit" name="signin" value="signin">
+            Sign In
+          </button>
+          <p class="p" style="color: white">
+            Don't have an account?
+            <a
+              id="signup-link"
+              style="text-decoration: none; color: rgb(255, 207, 157)"
+              href="#"
+              class="span"
+              >Sign Up</a
+            >
+          </p>
+        </form>
+      </div>
+    </div>
+    <!-- Login Form End -->
+    <!-- Signup Form Start -->
+    <div id="signup-popup-container">
+      <div id="signup-popup-content">
+        <form class="form-login" method="post">
+          {% csrf_token %}
+          <h1 style="text-align: center; color: white">Signup Form</h1>
+          <hr style="background-color: white; height: 2px" />
+          <div
+            class="button-selection"
+            style="display: flex; justify-content: space-between"
+          >
+            <button
+              type="button"
+              id="customer-btn"
+              onclick="showCustomerForm()"
+              style="
+                width: 300px;
+                background-color: #004225;
+                border: 1px solid white;
+                color: white;
+                height: 50px;
+                border-radius: 10px;
+              "
+            >
+              Customer
+            </button>
+            <button
+              type="button"
+              id="company-btn"
+              onclick="showCompanyForm()"
+              style="
+                width: 300px;
+                background-color: #004225;
+                border: 1px solid white;
+                color: white;
+                height: 50px;
+                border-radius: 10px;
+              "
+            >
+              Company Customer
+            </button>
+          </div>
+          <hr style="background-color: white; height: 2px" />
+          <!-- customer form -->
+          <div id="customer-form">
+            <input
+              hidden
+              type="checkbox"
+              id="customer-checkbox"
+              name="is_normal_user"
+              checked
+              onclick="toggleCheckbox(this, 'company-checkbox')"
+            />
+            <div class="row">
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Fullname </label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="text"
+                    name="full_name"
+                    class="input"
+                    placeholder="Enter your Fullname"
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Email</label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-at"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="email"
+                    name="email"
+                    class="input"
+                    placeholder="Enter your Email"
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Password </label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-lock"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="password"
+                    name="password1"
+                    class="input"
+                    placeholder="Enter your Password"
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Confirm Password </label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-lock"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="password"
+                    name="password2"
+                    class="input"
+                    placeholder="Enter your Confirm Password"
+                  />
+                </div>
+              </div>
+              <div class="col-12" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Mobile Number</label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="number"
+                    pattern="\d{10,}"
+                    name="mobile"
+                    class="input"
+                    placeholder="Enter your Mobile Number"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- company customer form -->
+          <div id="company-form" style="display: none">
+            <input
+              hidden
+              type="checkbox"
+              id="company-checkbox"
+              name="is_comapny_user"
+              onclick="toggleCheckbox(this, 'customer-checkbox')"
+            />
+            <div class="row">
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Comapny Name </label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="text"
+                    name="comapny_name"
+                    class="input"
+                    placeholder="Enter your Company Name"
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Comapny Id </label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="number"
+                    name="comapny_id"
+                    class="input"
+                    placeholder="Enter your Comapny Id"
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Fullname </label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="text"
+                    name="full_name"
+                    class="input"
+                    placeholder="Enter your Fullname"
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Email</label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-at"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="email"
+                    name="email"
+                    class="input"
+                    placeholder="Enter your Email"
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Password </label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-lock"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="password"
+                    name="password1"
+                    class="input"
+                    placeholder="Enter your Password"
+                  />
+                </div>
+              </div>
+              <div class="col-6" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Confirm Password </label>
+                </div>
+                <div class="inputForm">
+                  <i
+                    class="bi bi-lock"
+                    style="color: white; font-size: 1.4rem"
+                  ></i>
+                  <input
+                    type="password"
+                    name="password2"
+                    class="input"
+                    placeholder="Enter your Confirm Password"
+                  />
+                </div>
+              </div>
+              <div class="col-12" style="margin-bottom: 15px">
+                <div class="flex-column">
+                  <label>Mobile Number</label>
+                </div>
+                <div class="inputForm">
+                  <input
+                    type="number"
+                    pattern="\d{10,}"
+                    name="mobile"
+                    class="input"
+                    placeholder="Enter your Mobile Number"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- company cusyomer form-end -->
+          <input type="checkbox" name="is_customer" id="" checked hidden />
+          <button class="button-submit" name="signup" value="signup">
+            Sign Up
+          </button>
+        </form>
+      </div>
+    </div>
+    <!-- Signup Form End -->
+    <!-- Header Strat -->
+    <header>
+      <nav style="background-color: rgb(255, 176, 0)">
+        <div class="navbar">
+          <div class="logo">
+            <img src="/static/images/tea_cozy_logo.png" alt="" />
+          </div>
+          <ul class="menu mt-4">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/menu">Order Online</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/contact">Contact Us</a></li>
+          </ul>
+          <div class="search-box">
+            <button class="btn-search"><i class="fas fa-search"></i></button>
+            <input
+              type="text"
+              class="input-search"
+              placeholder="Type to Search..."
+            />
+          </div>
+          <div
+            class="account"
+            style="display: flex; justify-content: center; align-items: center"
+          >
+            {% if username is not none %}
+            <div class="dropdown me-4">
+              <button
+                class="dropdown-toggle"
+                type="button"
+                style="
+                  background-color: #004225;
+                  padding: 10px 15px;
+                  color: white;
+                  border: 0;
+                  border-radius: 10px;
+                "
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                {{username}}
+              </button>
+              <ul
+                class="dropdown-menu"
+                style="
+                  background-color: rgb(225, 225, 225);
+
+                  border: 0;
+                  width: 100%;
+                  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+                    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+                    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+                "
+              >
+                <li class="">
+                  <a class="dropdown-item profile" href="/updateprofile"
+                    >Profile</a
+                  >
+                </li>
+                <hr style="margin: 5px 0" />
+                <li class="">
+                  <a class="dropdown-item profile" href="/vieworder">Order's</a>
+                </li>
+                <hr style="margin: 5px 0" />
+                <li class="">
+                  <a class="dropdown-item logout" href="/userlogout">Logout</a>
+                </li>
+              </ul>
+            </div>
+            {% else %}
+            <i class="bi bi-person-circle me-4" id="login-btn"></i>
+            {% endif %}
+            <a href="/cart"><i class="bi bi-cart3" id="login-btn"></i></a>
+          </div>
+        </div>
+      </nav>
+      <div
+        id="carouselExample"
+        class="carousel slide carousel-fade"
+        data-bs-ride="carousel"
+        data-bs-interval="3000"
+      >
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img
+              src="/static/images/tea_shop.jpg"
+              class="d-block w-100"
+              alt="First Slide"
+            />
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Header end -->
+
+    <!-- Main Start -->
+    <main>
+      <!-- Contact 3 - Bootstrap Brain Component -->
+      <section class="py-3 py-md-5">
+        <div class="container">
+          <div class="row gy-3 gy-md-4 gy-lg-0 align-items-md-center">
+            <div class="col-12 col-lg-6">
+              <div class="row justify-content-xl-center">
+                <div class="col-12 col-xl-11">
+                  <h2 class="h1 mb-3" style="color: #004225">Get in touch</h2>
+                  <p
+                    class="lead fs-4 text-secondary mb-5"
+                    style="color: rgba(0, 64, 30, 0.778)"
+                  >
+                    We're always on the lookout to work with new clients. If
+                    you're interested in working with us, please get in touch in
+                    one of the following ways.
+                  </p>
+                  <div class="d-flex mb-5">
+                    <div class="me-4 text-primary">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="32"
+                        height="32"
+                        fill="currentColor"
+                        style="color: #004225"
+                        class="bi bi-geo"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M8 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.319 1.319 0 0 0-.37.265.301.301 0 0 0-.057.09V14l.002.008a.147.147 0 0 0 .016.033.617.617 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.619.619 0 0 0 .146-.15.148.148 0 0 0 .015-.033L12 14v-.004a.301.301 0 0 0-.057-.09 1.318 1.318 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465-1.281 0-2.462-.172-3.34-.465-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411z"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 class="mb-3" style="color: #004225">Address</h4>
+                      <address
+                        class="mb-0 text-secondary"
+                        style="color: rgba(0, 64, 30, 0.778)"
+                      >
+                        D-001 Elanza Crest, Sindhu Bhavan Road, Bodakdev,
+                        Ahmedabad - 380059. Gujarat, India
+                      </address>
+                    </div>
+                  </div>
+                  <div class="row mb-5">
+                    <div class="col-12 col-sm-6">
+                      <div class="d-flex mb-5 mb-sm-0">
+                        <div class="me-4 text-primary">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="32"
+                            height="32"
+                            fill="currentColor"
+                            style="color: #004225"
+                            class="bi bi-telephone-outbound"
+                            viewBox="0 0 16 16"
+                          >
+                            <path
+                              d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511zM11 .5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V1.707l-4.146 4.147a.5.5 0 0 1-.708-.708L14.293 1H11.5a.5.5 0 0 1-.5-.5z"
+                            />
+                          </svg>
+                        </div>
+                        <div>
+                          <h4 class="mb-3" style="color: #004225">Phone</h4>
+                          <p class="mb-0" style="color: rgba(0, 64, 30, 0.778)">
+                            <a
+                              class="link-secondary text-decoration-none"
+                              href="tel:+15057922430"
+                              >(505) 792-2430</a
+                            >
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                      <div class="d-flex mb-0">
+                        <div class="me-4 text-primary">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="32"
+                            height="32"
+                            fill="currentColor"
+                            style="color: #004225"
+                            class="bi bi-envelope-at"
+                            viewBox="0 0 16 16"
+                          >
+                            <path
+                              d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2H2Zm3.708 6.208L1 11.105V5.383l4.708 2.825ZM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2-7-4.2Z"
+                            />
+                            <path
+                              d="M14.247 14.269c1.01 0 1.587-.857 1.587-2.025v-.21C15.834 10.43 14.64 9 12.52 9h-.035C10.42 9 9 10.36 9 12.432v.214C9 14.82 10.438 16 12.358 16h.044c.594 0 1.018-.074 1.237-.175v-.73c-.245.11-.673.18-1.18.18h-.044c-1.334 0-2.571-.788-2.571-2.655v-.157c0-1.657 1.058-2.724 2.64-2.724h.04c1.535 0 2.484 1.05 2.484 2.326v.118c0 .975-.324 1.39-.639 1.39-.232 0-.41-.148-.41-.42v-2.19h-.906v.569h-.03c-.084-.298-.368-.63-.954-.63-.778 0-1.259.555-1.259 1.4v.528c0 .892.49 1.434 1.26 1.434.471 0 .896-.227 1.014-.643h.043c.118.42.617.648 1.12.648Zm-2.453-1.588v-.227c0-.546.227-.791.573-.791.297 0 .572.192.572.708v.367c0 .573-.253.744-.564.744-.354 0-.581-.215-.581-.8Z"
+                            />
+                          </svg>
+                        </div>
+                        <div>
+                          <h4 class="mb-3" style="color: #004225">E-Mail</h4>
+                          <p class="mb-0">
+                            <a
+                              class="link-secondary text-decoration-none"
+                              href="mailto:demo@yourdomain.com"
+                              style="color: rgba(0, 64, 30, 0.778)"
+                              >support@teacozy.in</a
+                            >
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-lg-6">
+              <div class="bg-white border rounded shadow-sm overflow-hidden">
+                <form action="#!">
+                  <div class="row gy-4 gy-xl-5 p-4 p-xl-5">
+                    <div class="col-12">
+                      <label for="fullname" class="form-label"
+                        >Full Name <span class="text-danger">*</span></label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="fullname"
+                        name="fullname"
+                        value=""
+                        required
+                      />
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <label for="email" class="form-label"
+                        >Email <span class="text-danger">*</span></label
+                      >
+                      <div class="input-group">
+                        <span class="input-group-text">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            class="bi bi-envelope"
+                            viewBox="0 0 16 16"
+                          >
+                            <path
+                              d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"
+                            />
+                          </svg>
+                        </span>
+                        <input
+                          type="email"
+                          class="form-control"
+                          id="email"
+                          name="email"
+                          value=""
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <label for="phone" class="form-label">Phone Number</label>
+                      <div class="input-group">
+                        <span class="input-group-text">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            class="bi bi-telephone"
+                            viewBox="0 0 16 16"
+                          >
+                            <path
+                              d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"
+                            />
+                          </svg>
+                        </span>
+                        <input
+                          type="tel"
+                          class="form-control"
+                          id="phone"
+                          name="phone"
+                          value=""
+                        />
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <label for="subject" class="form-label"
+                        >Subject <span class="text-danger">*</span></label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="subject"
+                        name="subject"
+                        value=""
+                        required
+                      />
+                    </div>
+                    <div class="col-12">
+                      <label for="message" class="form-label"
+                        >Message <span class="text-danger">*</span></label
+                      >
+                      <textarea
+                        class="form-control"
+                        id="message"
+                        name="message"
+                        rows="3"
+                        required
+                      ></textarea>
+                    </div>
+                    <div class="col-12">
+                      <div class="d-grid">
+                        <button
+                          style="background-color: #004225; color: white"
+                          class="btn btn-lg"
+                          type="submit"
+                        >
+                          Send Message
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- Main end -->
+
+    <!-- Footer -->
+    <footer class="text-center text-lg-start bg-body-tertiary text-muted">
+      <!-- Section: Social media -->
+      <section
+        class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom"
+      >
+        <!-- Left -->
+        <div class="me-5 d-none d-lg-block">
+          <span>Get connected with us on social networks:</span>
+        </div>
+        <!-- Left -->
+
+        <!-- Right -->
+        <div>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-google"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="" class="me-4 text-reset">
+            <i class="fab fa-github"></i>
+          </a>
+        </div>
+        <!-- Right -->
+      </section>
+      <!-- Section: Social media -->
+
+      <!-- Section: Links  -->
+      <section class="">
+        <div class="container text-center text-md-start mt-5">
+          <!-- Grid row -->
+          <div class="row mt-3">
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+              <!-- Content -->
+              <h6 class="text-uppercase fw-bold mb-4">
+                <img
+                  src="/static/images/tea_cozy_logo.png"
+                  style="width: 200px"
+                  alt=""
+                />
+              </h6>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                Here you can use rows and columns to organize your footer
+                content. Lorem ipsum dolor sit amet, consectetur adipisicing
+                elit.
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6
+                class="text-uppercase fw-bold mb-4"
+                style="color: rgb(0, 64, 30)"
+              >
+                OUR POLICIES
+              </h6>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="text-decoration: none; color: rgba(0, 64, 30, 0.778)"
+                  >Privacy Policy</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="text-decoration: none; color: rgba(0, 64, 30, 0.778)"
+                  >Terms & Conditions</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a href="#!" class="text-reset" style="text-decoration: none"
+                  >Refund & Cancellation Policy</a
+                >
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6
+                class="text-uppercase fw-bold mb-4"
+                style="color: rgb(0, 64, 30)"
+              >
+                Useful links
+              </h6>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="color: rgb(0, 64, 30); text-decoration: none"
+                  >Home</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="color: rgb(0, 64, 30); text-decoration: none"
+                  >About</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="color: rgb(0, 64, 30); text-decoration: none"
+                  >Order online</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="color: rgb(0, 64, 30); text-decoration: none"
+                  >Blog</a
+                >
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <a
+                  href="#!"
+                  class="text-reset"
+                  style="color: rgb(0, 64, 30); text-decoration: none"
+                  >Contact Us</a
+                >
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+              <!-- Links -->
+              <h6
+                class="text-uppercase fw-bold mb-4"
+                style="color: rgb(0, 64, 30)"
+              >
+                Contact
+              </h6>
+              <div style="display: flex">
+                <i
+                  style="padding-top: 5px; color: rgb(0, 64, 30)"
+                  class="fas fa-home me-3"
+                ></i>
+                <p style="color: rgba(0, 64, 30, 0.778)">
+                  D-001 Elanza Crest, Sindhu Bhavan Road, Bodakdev, Ahmedabad -
+                  380059. Gujarat, India
+                </p>
+              </div>
+
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <i class="fas fa-envelope me-3"></i>
+
+                support@teacozy.in
+              </p>
+              <p style="color: rgba(0, 64, 30, 0.778)">
+                <i class="fas fa-phone me-3"></i> + 01 234 567 88
+              </p>
+            </div>
+            <!-- Grid column -->
+          </div>
+          <!-- Grid row -->
+        </div>
+      </section>
+      <!-- Section: Links  -->
+
+      <!-- Copyright -->
+      <div
+        class="text-center p-4"
+        style="
+          background-color: rgba(0, 0, 0, 0.05);
+          color: rgba(0, 64, 30, 0.778);
+        "
+      >
+        © 2021 Copyright:
+        <a
+          class="text-reset fw-bold"
+          style="text-decoration: none"
+          href="https://mdbootstrap.com/"
+          >Teacozy.com</a
+        >
+      </div>
+      <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+    <!-- Signup form javascript -->
+    <script>
+      function showCustomerForm() {
+        document.getElementById("customer-form").style.display = "block";
+        document.getElementById("company-form").style.display = "none";
+        document.getElementById("customer-checkbox").checked = true;
+        document.getElementById("company-checkbox").checked = false;
+
+        // Enable the customer form fields and disable the company form fields
+        toggleFormFields("customer-form", true);
+        toggleFormFields("company-form", false);
+      }
+
+      function showCompanyForm() {
+        document.getElementById("customer-form").style.display = "none";
+        document.getElementById("company-form").style.display = "block";
+        document.getElementById("company-checkbox").checked = true;
+        document.getElementById("customer-checkbox").checked = false;
+
+        // Enable the company form fields and disable the customer form fields
+        toggleFormFields("customer-form", false);
+        toggleFormFields("company-form", true);
+      }
+
+      function toggleCheckbox(currentCheckbox, otherCheckboxId) {
+        const otherCheckbox = document.getElementById(otherCheckboxId);
+        if (currentCheckbox.checked) {
+          otherCheckbox.checked = false;
+        }
+      }
+
+      function toggleFormFields(formId, isEnabled) {
+        const formElements = document
+          .getElementById(formId)
+          .querySelectorAll("input, select, textarea, button");
+        formElements.forEach((element) => {
+          element.disabled = !isEnabled; // Disable or enable based on the isEnabled parameter
+        });
+      }
+
+      // Set default to show customer form
+      showCustomerForm();
+    </script>
+    <!-- Javascript -->
+    <script src="/static/login/popup.js"></script>
+    <!-- Curousel script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

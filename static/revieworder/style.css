@@ -1,0 +1,40 @@
+.container-order {
+  width: 100%;
+  /* margin: 50px auto; */
+  background: #fff;
+  padding: 20px;
+  border: 1px solid rgb(222, 226, 230);
+  border-radius: 10px;
+}
+.form-title {
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+.form-control {
+  margin-bottom: 15px;
+}
+.payment-methods img {
+  width: 50px;
+  margin-right: 10px;
+}
+.payment-methods .nav-link {
+  color: #ff9800;
+  font-weight: bold;
+}
+.payment-methods .nav-link:active {
+  border-bottom: 2px solid #ff9800;
+  color: black;
+}
+.btn-send {
+  background-color: #ff9800;
+  color: #fff;
+  font-weight: bold;
+  width: 100%;
+}
+.form-check-label {
+  font-size: 0.9rem;
+}
+.dispensable {
+  font-size: 0.8rem;
+  color: #888;
+}
